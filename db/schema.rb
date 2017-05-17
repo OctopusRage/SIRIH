@@ -10,7 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170516193503) do
+ActiveRecord::Schema.define(version: 20170517082947) do
+
+  create_table "movements", force: :cascade do |t|
+    t.string "registration_id"
+    t.string "bed_id"
+    t.date "entry_date"
+    t.date "leave_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bed_id"], name: "index_movements_on_bed_id"
+    t.index ["registration_id"], name: "index_movements_on_registration_id"
+  end
+
+  create_table "registrations", force: :cascade do |t|
+    t.string "registration_id"
+    t.string "patient_id"
+    t.string "patient_name"
+    t.string "doctor_name"
+    t.string "gender"
+    t.date "registration_date"
+    t.date "leave_date"
+    t.string "diagnose", default: ""
+    t.boolean "leave_status", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["patient_id"], name: "index_registrations_on_patient_id"
+    t.index ["registration_id"], name: "index_registrations_on_registration_id", unique: true
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "username"
