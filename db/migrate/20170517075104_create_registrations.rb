@@ -1,7 +1,7 @@
 class CreateRegistrations < ActiveRecord::Migration[5.1]
   def change
     create_table :registrations do |t|
-      t.string :registration_id
+      t.string :registration_code
       t.string :patient_id
       t.string :patient_name
       t.string :doctor_name
@@ -13,7 +13,7 @@ class CreateRegistrations < ActiveRecord::Migration[5.1]
 
       t.timestamps
     end
-    add_index :registrations, :registration_id, unique: true
+    add_index :registrations, :registration_code, unique: true
     add_index :registrations, :patient_id
   end
 end

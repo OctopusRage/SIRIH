@@ -10,21 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170517082947) do
+ActiveRecord::Schema.define(version: 20170517111153) do
+
+  create_table "beds", force: :cascade do |t|
+    t.string "bed_code"
+    t.string "room_class_code"
+    t.string "room_code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bed_code"], name: "index_beds_on_bed_code", unique: true
+    t.index ["room_class_code"], name: "index_beds_on_room_class_code"
+    t.index ["room_code"], name: "index_beds_on_room_code"
+  end
 
   create_table "movements", force: :cascade do |t|
-    t.string "registration_id"
-    t.string "bed_id"
+    t.string "registration_code"
+    t.string "bed_code"
     t.date "entry_date"
     t.date "leave_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["bed_id"], name: "index_movements_on_bed_id"
-    t.index ["registration_id"], name: "index_movements_on_registration_id"
+    t.index ["bed_code"], name: "index_movements_on_bed_code"
+    t.index ["registration_code"], name: "index_movements_on_registration_code"
   end
 
   create_table "registrations", force: :cascade do |t|
-    t.string "registration_id"
+    t.string "registration_code"
     t.string "patient_id"
     t.string "patient_name"
     t.string "doctor_name"
@@ -36,7 +47,23 @@ ActiveRecord::Schema.define(version: 20170517082947) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["patient_id"], name: "index_registrations_on_patient_id"
-    t.index ["registration_id"], name: "index_registrations_on_registration_id", unique: true
+    t.index ["registration_code"], name: "index_registrations_on_registration_code", unique: true
+  end
+
+  create_table "room_classes", force: :cascade do |t|
+    t.string "room_class_code"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["room_class_code"], name: "index_room_classes_on_room_class_code", unique: true
+  end
+
+  create_table "rooms", force: :cascade do |t|
+    t.string "room_code"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["room_code"], name: "index_rooms_on_room_code", unique: true
   end
 
   create_table "users", force: :cascade do |t|
