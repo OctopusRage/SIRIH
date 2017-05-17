@@ -1,5 +1,5 @@
 class TestController < ApplicationController
-  http_basic_authenticate_with :name => "user", :password => "password" 
+  before_action :authorize_user
   def index
     render json: {
       joke: 'hell no'

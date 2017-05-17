@@ -1,4 +1,4 @@
-module UsersHelper
+module UserSessionHelper
   def authorize_user
     render json: {
       status: 'fail',
@@ -10,13 +10,13 @@ module UsersHelper
   end
 
   def current_user
-    @current_user ||= token_authentication(:consumer)
+    @current_user ||= token_authentication
   end
   
-  def token_authentication(class_name)
+  def token_authentication
     authenticate_or_request_with_http_basic  do |username, password|
-      user = User.find_by(username: username, password: password)
-      if user 
+      user = User.find_by(username: username)
+      if user && user.authenticate(password)
         true
       else
         false
