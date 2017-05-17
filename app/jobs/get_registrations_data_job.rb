@@ -12,7 +12,7 @@ class GetRegistrationsDataJob < ApplicationJob
         data.each do |d|
           return if Registration.last_updated.registration_code == d["noPendaftaran"]
           registrationDate = d["tanggalDaftar"][0..10]
-          leaveDate = (defined? d["waktuPemulangan"]).present? ? d["waktuPemulangan"].strftime("%Y/%m/%d %H:%M:%S") : nil
+          leaveDate = (defined? d["waktuPemulangan"]).present? ? d["waktuPemulangan"].to_datetime.strftime("%Y/%m/%d %H:%M:%S") : nil
           gender = (defined? d["pasien"]["gender"]).present? ? d["pasien"]["gender"] : "Laki-laki"
           diagnosa = ""
           if (defined? d["diagnosa"])
