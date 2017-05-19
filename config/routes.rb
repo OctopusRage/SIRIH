@@ -3,5 +3,6 @@ Rails.application.routes.draw do
   get :test, to: "test#index"
   namespace :v1 do
     resources :auth, controller: :auth, only: [:create]
+    resources :registration, controller: :index, only: [:index]
   end
 end
