@@ -1,7 +1,7 @@
 class V1::IndexController < ApplicationController
   before_action :authorize_user
   def index
-    movements = Movement.includes(:registration, :bed => [:room, :room_class]).order("created_at DESC")
+    movements = Movement.joins(:registration, :bed => [:room, :room_class]).order("created_at DESC")
     payload = []
     movements.each do |m|
       payload = payload.push({

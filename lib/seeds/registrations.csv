@@ -1,4 +1,4 @@
-"id","registration_code","patient_id","created_at","updated_at","patient_name","doctor_name","gender","registration_date","leave_date","diagnose","leave_status"
+"id","registration_code","patient_id","created_at","updated_at","patient_name","doctor_name","gender","registration_date","leave_date","leave_reason","diagnose","leave_status"
 "1","1704280327","414720","2017-04-28 06:05:35","2017-04-28 06:05:35","ANIS ANSORI, TN","Danang Kusuma Adi, Dr, Sp.Pd","Laki-laki","2017-04-28",NULL,,,"0"
 "2","1704280325","414723","2017-04-28 06:05:35","2017-04-28 06:05:35","EMY SILVIA MARDHIANI , NY","Agus Dalranto, Dr. Sp.Og","Perempuan","2017-04-28",NULL,,,"0"
 "3","1704280320","272384","2017-04-28 06:05:35","2017-04-28 06:05:35","PONCO KADIR, TN","Danang Kusuma Adi, Dr, Sp.Pd","Laki-laki","2017-04-28",NULL,,,"0"
