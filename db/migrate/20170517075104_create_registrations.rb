@@ -9,6 +9,7 @@ class CreateRegistrations < ActiveRecord::Migration[5.1]
       t.date :registration_date
       t.date :leave_date, :null => true
       t.string :diagnose, :default => "", :null => true
+      t.string :leave_reason, :default => "", :null => true
       t.boolean :leave_status, :default => false
 
       t.timestamps

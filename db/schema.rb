@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 20170517111153) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "beds", force: :cascade do |t|
     t.string "bed_code"
     t.string "room_class_code"
@@ -43,6 +46,7 @@ ActiveRecord::Schema.define(version: 20170517111153) do
     t.date "registration_date"
     t.date "leave_date"
     t.string "diagnose", default: ""
+    t.string "leave_reason", default: ""
     t.boolean "leave_status", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

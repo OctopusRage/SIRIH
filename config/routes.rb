@@ -4,5 +4,6 @@ Rails.application.routes.draw do
   namespace :v1 do
     resources :auth, controller: :auth, only: [:create]
     resources :rs_index, controller: :index, only: [:index]
+    get "patient_entry" => "recapitulations#get_patient_entry"
   end
 end

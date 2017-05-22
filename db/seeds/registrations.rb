@@ -11,6 +11,7 @@ csv.each do |row|
   r.gender = row['gender']
   r.registration_date = row['registration_date']
   r.leave_date = row['leave_date']
+  r.leave_reason = row['leave_reason']
   r.diagnose = row['diagnose']
   if row['leave_status'] == 0
     r.leave_status = false
