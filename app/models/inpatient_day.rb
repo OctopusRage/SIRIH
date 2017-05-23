@@ -1,0 +1,3 @@
+class InpatientDay < ApplicationRecord
+  
+end
