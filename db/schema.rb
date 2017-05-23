@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170523015055) do
+ActiveRecord::Schema.define(version: 20170523140559) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,12 @@ ActiveRecord::Schema.define(version: 20170523015055) do
     t.index ["bed_code"], name: "index_beds_on_bed_code", unique: true
     t.index ["room_class_code"], name: "index_beds_on_room_class_code"
     t.index ["room_code"], name: "index_beds_on_room_code"
+  end
+
+  create_table "doctors", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "movements", force: :cascade do |t|
@@ -51,6 +57,8 @@ ActiveRecord::Schema.define(version: 20170523015055) do
     t.boolean "leave_status", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "doctor_id"
+    t.index ["doctor_id"], name: "index_registrations_on_doctor_id"
     t.index ["patient_id"], name: "index_registrations_on_patient_id"
     t.index ["registration_code"], name: "index_registrations_on_registration_code", unique: true
   end

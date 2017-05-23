@@ -1,7 +1,7 @@
 class V1::IndexController < ApplicationController
   before_action :authorize_user
   def index
-    movements = Movement.joins(:registration, :bed => [:room, :room_class]).order("created_at DESC").page(params[:page]).per(25)
+    movements = Movement.joins(:registration, :bed => [:room, :room_class]).order("movements.entry_date DESC").page(params[:page]).per(25)
     payload = []
     movements.each do |m|
       payload = payload.push({
