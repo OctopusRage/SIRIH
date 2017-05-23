@@ -1,4 +1,5 @@
 class V1::RecapitulationsController < ApplicationController
+  before_action :authorize_user
   def get_patient_entry
     start_date = DateTime.now.to_date
     end_date = DateTime.now.to_date
