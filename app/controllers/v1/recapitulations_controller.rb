@@ -3,7 +3,7 @@ class V1::RecapitulationsController < ApplicationController
     start_date = DateTime.now.to_date
     end_date = DateTime.now.to_date
     if params[:room_id].nil?
-      render json: {
+      render json: {Dari backend udah ready ya mas, tinggal dari frontend nya
         status: 'fail',
         errors: {
           message: "Room ID is required"

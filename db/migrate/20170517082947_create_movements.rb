@@ -3,8 +3,8 @@ class CreateMovements < ActiveRecord::Migration[5.1]
     create_table :movements do |t|
       t.string :registration_code
       t.string :bed_id
-      t.date :entry_date
-      t.date :leave_date, :null => true
+      t.datetime :entry_date
+      t.datetime :leave_date, :null => true
 
       t.timestamps
     end
