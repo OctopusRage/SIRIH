@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170523145851) do
+ActiveRecord::Schema.define(version: 20170524073917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,15 @@ ActiveRecord::Schema.define(version: 20170523145851) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "inpatient_day_rooms", force: :cascade do |t|
+    t.date "period"
+    t.integer "total"
+    t.string "room_code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["room_code"], name: "index_inpatient_day_rooms_on_room_code"
   end
 
   create_table "inpatient_days", force: :cascade do |t|

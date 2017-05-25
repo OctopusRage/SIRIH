@@ -19,11 +19,20 @@ class V1::Hospital::IndicatorsController < ApplicationController
     end
     available_beds = Bed.count
     inpatient_days = InpatientDay.where("period BETWEEN ? AND ?", params[:start_date], params[:end_date]).sum(:total)
-    day_diff = (params[:end_date].to_date - params[:start_date].to_date).to_i
-    bor = Float(inpatient_days) * 100 / available_beds * day_diff
+    day_diff = (params[:end_date].to_date - params[:start_date].to_date).to_i + 1
+    o = Float(inpatient_days) / day_diff
+    bor = o * 100 / available_beds 
+    leave_patient_count = Registration.where(leave_status: true).where("leave_date BETWEEN ? AND ?", params[:start_date], params[:end_date]).count
+    # los = (Float(inpatient_days) / leave_patient_count)
+    los = o * day_diff / leave_patient_count
+    bto = Float(leave_patient_count) / available_beds
+    toi = (available_beds - o) * day_diff / leave_patient_count
     render json: {
       data: {
-        bor: bor
+        bor: '%.2f' % bor,
+        los: '%.2f' % los,
+        toi: toi.round,
+        bto: bto.round,
       }
     }, status: 200
   end
