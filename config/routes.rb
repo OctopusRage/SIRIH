@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     get "patient_entry" => "recapitulations#get_patient_entry"
     get "patient_out" => "recapitulations#get_patient_out"
     resources :doctors, only: [:index]
-    resources :rooms, only: [:index, :show]
+    resources :room_list, controller: :room_list, only: [:index, :show]
     resources :classes, controller: :room_classes, only: [:index, :show]
     namespace :hospital do
       get "indicator" => "indicators#index"

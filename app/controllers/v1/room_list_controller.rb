@@ -1,4 +1,4 @@
-class V1::RoomsController < ApplicationController
+class V1::RoomListController < ApplicationController
   before_action :authorize_user
   def index
     rooms = Room.all

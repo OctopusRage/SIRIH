@@ -1,4 +1,4 @@
-class V1::Room::IndicatorsController < ApplicationController
+class V1::Rooms::IndicatorsController < ApplicationController
   before_action :authorize_user
   def index
     if params[:room_code].nil?
