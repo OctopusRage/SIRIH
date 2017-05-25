@@ -7,7 +7,10 @@ Rails.application.routes.draw do
     get "patient_entry" => "recapitulations#get_patient_entry"
     get "patient_out" => "recapitulations#get_patient_out"
     namespace :hospital do
-      get "indicator" => "indicators#get_stats"
+      get "indicator" => "indicators#index"
+    end
+    namespace :room do
+      get "indicator" => "indicators#index"
     end
   end
 end

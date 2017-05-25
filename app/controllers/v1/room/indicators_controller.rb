@@ -1,6 +1,14 @@
-class V1::Hospital::IndicatorsController < ApplicationController
+class V1::Room::IndicatorsController < ApplicationController
   before_action :authorize_user
   def index
+    if params[:room_code].nil?
+      render json: {
+        status: 'fail',
+        errors: {
+          message: 'room_code is required'
+        }
+      }, status: 422 and return
+    end
     if params[:start_date].nil? || params[:end_date].nil?
       render json: {
         status: 'fail',
@@ -17,17 +25,19 @@ class V1::Hospital::IndicatorsController < ApplicationController
         }
       }, status: 422 and return
     end
-    available_beds = Bed.count
-    inpatient_days = InpatientDay.where("period BETWEEN ? AND ?", params[:start_date], params[:end_date]).sum(:total)
+    available_beds = Bed.joins(:room).where(room_code: params[:room_code]).count
+    inpatient_days = InpatientDayRoom.where(room_code: params[:room_code]).where("period BETWEEN ? AND ?", params[:start_date], params[:end_date]).sum(:total)
     day_diff = (params[:end_date].to_date - params[:start_date].to_date).to_i + 1
     o = Float(inpatient_days) / day_diff
     bor = o * 100 / available_beds 
-    leave_patient = Registration.where(leave_status: true).where("leave_date BETWEEN ? AND ?", params[:start_date], params[:end_date])
+    registrations = Registration.joins(:movements => :bed).where("beds.room_code = ?", params[:room_code])
+    leave_room = registrations.where("DATE(movements.leave_date) BETWEEN ? AND ?", params[:start_date], params[:end_date])
+    leave_patient = registrations.where(leave_status: true).where("movements.leave_date BETWEEN ? AND ?", params[:start_date], params[:end_date])
     death_patient = leave_patient.where("LOWER(leave_reason) = 'meninggal'")
     death_patient_count = death_patient.count
     death_after_2day = death_patient.where("EXTRACT(day from registrations.leave_date::timestamp - registrations.registration_date::timestamp) > 2")
     death_after_2day_count = death_after_2day.count
-    leave_patient_count = leave_patient.count
+    leave_patient_count = leave_room.count
     # los = (Float(inpatient_days) / leave_patient_count)
     los = o * day_diff / leave_patient_count
     bto = Float(leave_patient_count) / available_beds
