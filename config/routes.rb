@@ -6,10 +6,13 @@ Rails.application.routes.draw do
     resources :rs_index, controller: :index, only: [:index]
     get "patient_entry" => "recapitulations#get_patient_entry"
     get "patient_out" => "recapitulations#get_patient_out"
+    resources :doctors, only: [:index]
+    resources :rooms, only: [:index, :show]
+    resources :classes, controller: :room_classes, only: [:index, :show]
     namespace :hospital do
       get "indicator" => "indicators#index"
     end
-    namespace :room do
+    namespace :rooms do
       get "indicator" => "indicators#index"
     end
   end
