@@ -4,6 +4,7 @@ class V1::IndexController < ApplicationController
     movements = Movement.joins(:registration => :doctor, :bed => [:room, :room_class]).order("movements.entry_date DESC").page(params[:page]).per(25)
     movements = movements.where("doctors.id = ?", params[:doctor_id]) if params[:doctor_id].present?
     movements = movements.where("DATE(entry_date) BETWEEN ? AND ?", params[:start_date], params[:end_date]) if params[:start_date].present? || params[:end_date].present?
+    total = movements.total_count
     payload = []
     movements.each do |m|
       payload = payload.push({
@@ -17,7 +18,8 @@ class V1::IndexController < ApplicationController
       })
     end
     render json: {
-      data: payload
+      data: payload,
+      total: total,
     }, status: 200
   end
 end
