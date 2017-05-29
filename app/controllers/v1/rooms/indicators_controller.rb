@@ -44,6 +44,13 @@ class V1::Rooms::IndicatorsController < ApplicationController
     toi = (available_beds - o) * day_diff / leave_patient_count
     gdr = Float(death_patient_count) * 1000 / leave_patient_count
     ndr = Float(death_after_2day_count) * 1000 / leave_patient_count
+    graph_data = registrations.where("DATE(movements.entry_date) BETWEEN ? AND ?", params[:start_date], params[:end_date]).group("DATE(movements.entry_date)").order("DATE(movements.entry_date)").count
+    graph_labels = []
+    graph_values = []
+    graph_data.map{|r| 
+      graph_labels.push(r[0])
+      graph_values.push(r[1])
+    }
     render json: {
       data: {
         bor: bor.round(2),
@@ -52,6 +59,13 @@ class V1::Rooms::IndicatorsController < ApplicationController
         bto: bto.round,
         gdr: gdr.round(2),
         ndr: ndr.round(2),
+        hp: inpatient_days,
+        leave_patient_count: leave_patient_count,
+        death_count: death_patient_count,
+        incoming_patient_graph: {
+          labels: graph_labels,
+          values: graph_values,
+        }
       }
     }, status: 200
   end
