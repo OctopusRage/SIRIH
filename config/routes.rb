@@ -6,6 +6,8 @@ Rails.application.routes.draw do
     resources :rs_index, controller: :index, only: [:index]
     get "patient_entry" => "recapitulations#get_patient_entry"
     get "patient_out" => "recapitulations#get_patient_out"
+    get "patient_out_room" => "recapitulations#get_patient_out_room"
+    get "patient_enter_room" => "recapitulations#get_patient_enter_room"
     resources :doctors, only: [:index]
     resources :room_list, controller: :room_list, only: [:index, :show]
     resources :classes, controller: :room_classes, only: [:index, :show]
