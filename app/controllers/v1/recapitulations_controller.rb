@@ -6,9 +6,12 @@ class V1::RecapitulationsController < ApplicationController
     if params[:start_date].present?
       start_date = params[:start_date]
       end_date = params[:end_date] if params[:end_date]
-      movements = Movement.joins(:registration, :bed => [:room, :room_class]).where("entry_date BETWEEN ? AND ?", start_date, end_date).order("entry_date DESC").page(params[:page]).per(params[:limit])
+      movements = Movement.joins(:registration, :bed => [:room, :room_class])
+        .where("entry_date BETWEEN ? AND ?", start_date, end_date)
+        .order("entry_date DESC").page(params[:page]).per(params[:limit])
     else
-      movements = Movement.joins(:registration, :bed => [:room, :room_class]).order("entry_date DESC").page(params[:page]).per(params[:limit])
+      movements = Movement.joins(:registration, :bed => [:room, :room_class])
+        .order("entry_date DESC").page(params[:page]).per(params[:limit])
     end
     movements = movements.where("beds.room_code = ?", params[:room_code]) if params[:room_code].present?
     movements = movements.where(entry_status: 1)
@@ -23,7 +26,8 @@ class V1::RecapitulationsController < ApplicationController
       })
     end
     render json: {
-      data: new_patient
+      data: new_patient,
+      total: movements.total_count
     }, status: 200
   end
 
@@ -46,12 +50,14 @@ class V1::RecapitulationsController < ApplicationController
         patient_id: r.patient_id,
         class: r.movements.order("movements.entry_date DESC").first.bed.room_class.name,
         leave_reason: r.leave_reason,
-        registration_date: r.registration_date,
+        entry_date: r.registration_date,
         leave_date: r.leave_date,
+        length_of_stay: (( r.leave_date - r.registration_date).to_i).to_s + " hari"
       })
     end
     render json: {
-      data: leave_patient
+      data: leave_patient,
+      total: registrations.total_count
     }, status: 200
   end
   def get_patient_out_room
@@ -86,7 +92,8 @@ class V1::RecapitulationsController < ApplicationController
       })
     end
     render json: {
-      data: out_patient
+      data: out_patient,
+      total: movements.total_count
     }, status: 200
   end
   def get_patient_enter_room
@@ -100,7 +107,7 @@ class V1::RecapitulationsController < ApplicationController
       movements = Movement.joins(:registration, :bed => [:room, :room_class]).order("movements.entry_date DESC").page(params[:page]).per(params[:limit])
     end
     movements = movements.where("beds.room_code = ?", params[:room_code]) if params[:room_code].present?
-    movements = movements.where(entry_status: 2).where("registrations.leave_status = false")
+    movements = movements.where(entry_status: 2)
     moving_patient = []
     movements.each do |m|
       from_room = Movement.where(registration_code: m.registration_code).where("entry_date < ?", m.entry_date).order(:entry_date)
@@ -116,7 +123,8 @@ class V1::RecapitulationsController < ApplicationController
       })
     end
     render json: {
-      data: moving_patient
+      data: moving_patient,
+      total: movements.total_count
     }, status: 200
   end
 end
