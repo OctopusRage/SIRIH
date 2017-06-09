@@ -1,12 +1,8 @@
 class V1::GbjController < ApplicationController 
   def index
-        if params[:start_date].nil? || params[:end_date].nil?
-      render json: {
-        status: 'fail',
-        errors: {
-          message: 'start_date or end_date are required'
-        }
-      }, status: 422 and return
+    if params[:start_date].nil? || params[:end_date].nil?
+      params[:start_date] = InpatientDay.minimum(:period)
+      params[:end_date] = InpatientDay.maximum(:period)
     end
     if params[:start_date] > params[:end_date] 
       render json: {
@@ -53,8 +49,8 @@ class V1::GbjController < ApplicationController
         ndr: ndr.round(2),
         hp: inpatient_days,
         intersection_point: {
-          x: x,
-          y: y,
+          x: x.round(3),
+          y: y.round(3),
         }
       }
     }, status: 200
