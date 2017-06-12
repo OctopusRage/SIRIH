@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     resources :doctors, only: [:index]
     resources :room_list, controller: :room_list, only: [:index, :show]
     resources :classes, controller: :room_classes, only: [:index, :show]
+    resources :users, only: [:index, :show, :update, :destroy, :create]
     namespace :hospital do
       get "indicators" => "indicators#index"
     end
