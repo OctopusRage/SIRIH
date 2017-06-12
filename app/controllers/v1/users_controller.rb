@@ -1,4 +1,4 @@
-class UsersController < ApplicationController
+class V1::UsersController < ApplicationController
   before_action :authorize_user
   def index
     if current_user.role != 1 
@@ -32,7 +32,7 @@ class UsersController < ApplicationController
         }
       }, status: 422 and return
     end
-    user = user.create(username: params[:username], name: params[:name], password: params[:password])
+    user = User.create(username: params[:username], name: params[:name], password: params[:password], role: 2)
     render json: {
       data: user
     }, status: 201
@@ -63,7 +63,7 @@ class UsersController < ApplicationController
       }, status: 503 and return
     end
     user = User.find(params[:id])
-    if user 
+    if user && user_params[:password] == user_params[:password_confirmation]
       user.update(user_params) 
       render json: {
         data: {
