@@ -62,21 +62,28 @@ class V1::UsersController < ApplicationController
         }
       }, status: 503 and return
     end
-    user = User.find(params[:id])
-    if user && user_params[:password] == user_params[:password_confirmation]
-      user.update(user_params) 
+    user = User.find(user_params[:id])
+    if user.nil?
       render json: {
         data: {
-          user: user
+          message: 'not found'
         }
-      }, status: 200 and return
+      }, status: 404 and return
     end
+    if user_params[:password].present? && user_params[:password] != user_params[:password_confirmation]
+      render json: {
+        data: {
+          message: 'password doesnt match'
+        }
+      }, status: 422 and return
+    end
+      
+    user.update(user_params)      
     render json: {
-      status: fail,
       data: {
-        mesasage: 'failed to update data'
+        user: user
       }
-    }, status: 422
+    }, status: 200 and return
   end
 
   def destroy
@@ -106,6 +113,6 @@ class V1::UsersController < ApplicationController
   
   private
     def user_params
-      params.permit(:username, :password, :name, :password_confirmation)
+      params.permit(:id, :username, :password, :name, :password_confirmation, :role)
     end
 end
