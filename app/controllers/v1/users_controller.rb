@@ -11,7 +11,8 @@ class V1::UsersController < ApplicationController
     end
     users = User.all.page(params[:page]).per(params[:limit])
     render json: {
-      data: users
+      data: users,
+      total: users.total_count
     }, status: 200
   end
   
@@ -19,20 +20,34 @@ class V1::UsersController < ApplicationController
     if current_user.role != 1 
       render json: {
         status: 'fail',
-        data: {
+        errors: {
           message: 'unauthorized access'
         }
       }, status: 503 and return
     end
     user = User.find_by(username: params[:username])
+    if params[:password] != params[:password_confirmation]
+      render json: {
+        errors: {
+          message: 'Paswword does not match'
+        }
+      }, status: 422 and return
+    end
     if user.present? || params[:password] != params[:password_confirmation]
       render json: {
-        data: {
+        errros: {
           message: 'User already exist'
         }
       }, status: 422 and return
     end
     user = User.create(username: params[:username], name: params[:name], password: params[:password], role: 2)
+    if !user.valid? 
+      render json: {
+        errors: {
+          message: user.errors.first.join(" ")
+        }
+      }, status: 422 and return
+    end
     render json: {
       data: user
     }, status: 201
