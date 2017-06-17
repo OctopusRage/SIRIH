@@ -80,14 +80,14 @@ class V1::UsersController < ApplicationController
     user = User.find(user_params[:id])
     if user.nil?
       render json: {
-        data: {
+        errors: {
           message: 'not found'
         }
       }, status: 404 and return
     end
     if user_params[:password].present? && user_params[:password] != user_params[:password_confirmation]
       render json: {
-        data: {
+        errors: {
           message: 'password doesnt match'
         }
       }, status: 422 and return
@@ -105,7 +105,7 @@ class V1::UsersController < ApplicationController
     if current_user.role != 1 
       render json: {
         status: 'fail',
-        data: {
+        errors: {
           message: 'unauthorized access'
         }
       }, status: 503 and return
@@ -115,11 +115,11 @@ class V1::UsersController < ApplicationController
       user.delete
       render json: {
         message: 'user has been deleted'
-      }, status: 204 and return
+      }, status: 200 and return
     else
       render json: {
         status: 'fail',
-        data: {
+        errors: {
           message: 'failed to delete message'
         }
       }, status:422
