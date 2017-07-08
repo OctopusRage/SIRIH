@@ -1,0 +1,5 @@
+complete_profile_reminder:
+  every: 10s
+  class: UlalaJob
+  queue: default
+  description: Runs the perform method in MyJob

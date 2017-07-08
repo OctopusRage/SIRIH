@@ -19,8 +19,8 @@ gem 'puma', '~> 3.7'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 gem 'httparty'
-gem 'resque'
-gem 'resque-scheduler'
+gem 'resque', :require => "resque/server"
+gem 'resque-scheduler', :require => "resque/scheduler/server"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
