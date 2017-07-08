@@ -20,5 +20,8 @@ Rails.application.routes.draw do
     namespace :rooms do
       get "indicators" => "indicators#index"
     end
+    namespace :reports do
+      get "patients" => "patients#index"
+    end
   end
 end

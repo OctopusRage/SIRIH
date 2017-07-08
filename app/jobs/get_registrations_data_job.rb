@@ -30,9 +30,10 @@ class GetRegistrationsDataJob < ApplicationJob
               registration_date: registrationDate,
               leave_date: leaveDate,
               leave_status: d["statusPerawatan"]==0 ? false : true,
-              leave_reason: (defined? d["deskripsiPemulangan"]).present? ? d["deskripsiPemulangan"]:""
+              leave_reason: (defined? d["deskripsiPemulangan"]).present? ? d["deskripsiPemulangan"]:"",
               diagnose: diagnosa
             )
+          end
         end
       else
         break

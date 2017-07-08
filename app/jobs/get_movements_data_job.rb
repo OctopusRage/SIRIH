@@ -15,8 +15,9 @@ class GetMovementsDataJob < ApplicationJob
             registration_code: d["noPendaftaran"],
             bed_code: d["bed"]["id"],
             entry_date: d["waktuMasuk"].to_datetime.strftime("%Y/%m/%d %H:%M:%S"),
-            leave_date: (defined? d["waktuKeluar"]).present? d["waktuKeluar"].to_datetime.strftime("%Y/%m/%d %H:%M:%S") : nil
+            leave_date: ((defined? d["waktuKeluar"]).present?)? d["waktuKeluar"].to_datetime.strftime("%Y/%m/%d %H:%M:%S"):nil,
           )
+          end
         end
       end
   end
