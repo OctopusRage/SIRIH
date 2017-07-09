@@ -1,0 +1,20 @@
+[
+  {
+    "noPendaftaran": "",
+    "tanggalDaftar": "",
+    "pasien": {
+      "gender": "Laki-laki",
+      "nama": "tukiyem"
+    },
+    "waktuPemulangan": "",
+    "statusPerawatan": "",
+    "deskripsiPemulangan" : "",
+    "diagnosa": [
+      {
+        "nama": "Fever, unspecified",
+        "icd-no": "312r213-213"
+      }
+    ]
+  }
+]
+

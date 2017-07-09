@@ -1,5 +1,19 @@
-complete_profile_reminder:
-  every: 10s
-  class: UlalaJob
-  queue: default
-  description: Runs the perform method in MyJob
+get_registrations_data:
+  every: 10m
+  class: GetRegistrationsDataJob
+  queue: normal
+get_movements_data:
+  every: 1h
+  class: GetMovementDataJob
+  queue: normal
+  after_schedule: NormalizeMovementsDataJob
+do_room_census:
+  cron: "30 23 * * *"
+  class: InpatientDayRoomCensusJob
+  queue: high
+  description: This will run census job every day at 23 30
+do_hospital_census:
+  cron: "30 23 * * *"
+  class: InpatientDaysCensusJob
+  queue: medium
+  description: this will run hospital census job every day at 23 30

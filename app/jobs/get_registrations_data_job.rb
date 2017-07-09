@@ -23,8 +23,8 @@ class GetRegistrationsDataJob < ApplicationJob
           if Registration.find_by("registration_code", d["noPendaftaran"]).nil?
             Registration.create(
               registration_code: d["noPendaftaran"],
-              patient_id: d["patient_id"],
-              patient_name: d["patient_name"],
+              patient_id: d["pasien"]["noRm"],
+              patient_name: d["pasien"]["nama"],
               gender: gender,
               doctor_name: d["dokter"]["nama"],
               registration_date: registrationDate,

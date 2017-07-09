@@ -12,7 +12,11 @@ class GetBedsDataJob < ApplicationJob
       data.each do |d|
         if Bed.find_by(bed_code: d["id"]).nil?
           if (defined? d["kelas"]).present?
-            Bed.create(bed_code: d["id"], class_code: d["kelas.id"], room_code: d["ruang.id"])
+            Bed.create(
+              bed_code: d["id"], 
+              class_code: d["kelas"]["id"], 
+              room_code: d["ruang"]["id"]
+            )
           end
         end
       end
