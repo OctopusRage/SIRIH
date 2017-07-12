@@ -1,9 +1,9 @@
-class InpatientDayRoomsCensusJob < ApplicationJob
-  queue_as :default
+class InpatientDayRoomsCensusJob
+  @queue = :daily
 
   def perform(first_date = nil, last_date = nil, room_code = nil)
     if first_date.nil? || last_date.nil?
-      first_date = Movement.order(:entry_date).first.entry_date.to_date 
+      first_date = Movement.order(:entry_date).first.entry_date.to_date
       last_date = Movement.order(:entry_date).last.entry_date.to_date
     end
     return if InpatientDayRoom.find_by(period: first_date, room_code: room_code).present?

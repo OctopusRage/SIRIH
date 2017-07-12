@@ -1,10 +1,10 @@
-class InpatientDaysCensusJob < ApplicationJob
-  queue_as :default
+class InpatientDaysCensusJob
+  @queue = :daily
 
-  def perform(first_date = nil, last_date = nil)
+  def self.perform(first_date = nil, last_date = nil)
     if first_date.nil? || last_date.nil?
-      first_date = Registration.order(:registration_date).first.registration_date.to_date 
-      last_date = Registration.order(:registration_date).last.registration_date.to_date
+      first_date = Registration.order(:registration_date).last.registration_date.to_date
+      last_date = DateTime.now.to_date
     end
     return if InpatientDay.find_by(period: first_date).present?
     (first_date..last_date).each do |date|

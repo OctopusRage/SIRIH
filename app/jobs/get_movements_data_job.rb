@@ -1,6 +1,6 @@
 require 'httparty'
 class GetMovementsDataJob
-  @queue_as = :normal
+  @queue = :normal
   BASE_URL = ENV['SERVER_DATA_URL']
   def self.perform
     # Do something later
