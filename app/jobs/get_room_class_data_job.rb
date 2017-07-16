@@ -7,7 +7,6 @@ class GetRoomClassDataJob
     auth = {:username => "ajiugm", :password => "ajiugm"}
     res = HTTParty.get("#{BASE_URL}/pendaftaran/kelas", :basic_auth => auth)
     if res.code >= 200 && res.code < 400
-      byebug
       data = JSON.parse(res.body)
 
       data.each do |d|

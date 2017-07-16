@@ -7,6 +7,18 @@ get_movements_data:
   class: GetMovementDataJob
   queue: high
   after_schedule: NormalizeMovementsDataJob
+get_room_data:
+  cron: "30 09 * * *"
+  class: GetRoomsDataJob
+  queue: daily
+get_class_data:
+  cron: "30 09 * * *"
+  class: GetRoomClassDataJob
+  queue: daily
+get_bed:
+  cron: "30 10 * * *"
+  class: GetBedDataJob
+  queue: daily
 do_room_census:
   cron: "30 23 * * *"
   class: InpatientDayRoomCensusJob
