@@ -9,8 +9,7 @@ class InpatientDaysCensusJob
     return if InpatientDay.find_by(period: first_date).present?
     (first_date..last_date).each do |date|
       total = 0
-      patient_in_range_count = Registration
-        .where("registration_date <= ? AND leave_date > ?", date, date).count
+      patient_in_range_count = Registration.where("registration_date <= ? AND leave_date > ?", date, date).count
       one_day_patient_count = Registration
         .where("registration_date = ? AND leave_date = ?", date, date).count
       patient_still_stay_count = Registration

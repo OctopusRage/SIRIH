@@ -21,9 +21,7 @@ class InpatientDayRoomsCensusJob
     (first_date..last_date).each do |date|
       total = 0
       patient_in_range_count = movements
-        .where("DATE(entry_date) <= ? AND DATE(leave_date) > ? AND beds.room_code = ?", date, date, room_code).count
-      one_day_patient_count = movements
-        .where("DATE(entry_date) = ? AND DATE(leave_date) = ? AND beds.room_code = ?", date, date, room_code).count
+        .where("DATE(entry_date) <= ? AND DATE(leave_date) >= ? AND beds.room_code = ?", date, date, room_code).count
       patient_still_stay_count = movements
         .where("DATE(entry_date) = ? AND DATE(leave_date) is NULL AND beds.room_code = ?", date, room_code).count
       total = patient_in_range_count + one_day_patient_count + patient_still_stay_count
